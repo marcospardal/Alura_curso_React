@@ -2,9 +2,13 @@
   display: flex;
 }
 
+.conteudo-principal {
+  flex-grow: 3;
+}
+
 :root {
   --primaria: #58a4b0;
-  --secudaria: #373f51;
+  --secundaria: #373f51;
   --secundaria-ativa: #cccccc;
   --fundo: #ffffff;
   --fundo-detalhes: #ececec;

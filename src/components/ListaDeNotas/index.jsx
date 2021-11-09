@@ -15,6 +15,7 @@ class ListaDeNotas extends Component {
                 titulo={nota.titulo} 
                 texto={nota.texto}
                 index={index}
+                categoria={nota.categoria}
               />
             </li>
           )

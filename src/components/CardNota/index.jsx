@@ -14,6 +14,7 @@ class CardNota extends Component {
             style={{ height: 15, cursor: 'pointer' }}
             onClick={() => this.props.apagarNota(this.props.index)}
           />
+          <h4>{this.props.categoria}</h4>
         </header>
         <p className='card-nota_texto'>{this.props.texto}</p>
       </section>
