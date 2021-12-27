@@ -7,9 +7,13 @@ function App() {
       <Typography variant="h3" align="center">
         Formulário de cadastro
       </Typography>
-      <FormularioCadastro />
+      <FormularioCadastro onSubmit={onSubmit} />
     </Container>
   );
+}
+
+function onSubmit(dados) {
+  console.log(dados);
 }
 
 export default App;
