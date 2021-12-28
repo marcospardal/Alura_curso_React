@@ -10,11 +10,11 @@ import DadosEntrega from "./DadosEntrega";
 function FormularioCadastro(props) {
   const [dadosColetados, setDados] = useState({});
   const [etapaAtual, setEtapaAtual] = useState(0);
-  const { onSubmit, validateCPF } = props;
+  const { onSubmit } = props;
 
   const etapas = [
     <DadosUsuario onSubmit={coletarDados} />,
-    <DadosPessoais onSubmit={coletarDados} validateCPF={validateCPF} />,
+    <DadosPessoais onSubmit={coletarDados} />,
     <DadosEntrega onSubmit={coletarDados} />,
     <Typography variant="h5">Cadastro realizado com sucesso!</Typography>,
   ];
