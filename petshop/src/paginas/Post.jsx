@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import "../assets/css/post.css";
 import { busca } from "../api/api";
@@ -7,9 +7,12 @@ import { busca } from "../api/api";
 const Post = () => {
   const [post, setPost] = useState({});
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    busca(`posts/${id}`, setPost);
+    busca(`posts/${id}`, setPost).catch(() => {
+      navigate("/404");
+    });
   }, [id]);
 
   return (
