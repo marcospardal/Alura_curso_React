@@ -17,7 +17,9 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="/post/:id" element={<Post />} />
-        <Route path="/categoria/:id" element={<Categoria />} />
+        <Route path="/categoria/:id">
+          <Route index={true} element={<Categoria />} />
+        </Route>
         <Route path="*" element={<Pagina404 />} />
       </Routes>
     </Router>

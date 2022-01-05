@@ -1,12 +1,29 @@
-import React from "react";
-import { useParams, Route, Routes, useMatch } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  useParams,
+  Link,
+  useMatch,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
 
 import "../assets/css/blog.css";
 import ListaCategorias from "../components/ListaCategorias";
 import ListaPost from "../components/ListaPost";
+import SubCategoria from "./SubCategoria";
+import { busca } from "../api/api";
 
 const Categoria = () => {
   const { id } = useParams();
+  const [subCategorias, setSubCategorias] = useState([]);
+  const { pathname } = useMatch("/categoria/:id");
+
+  useEffect(() => {
+    busca(`/categorias/${id}`, (categoria) => {
+      setSubCategorias(categoria.subcategorias);
+    });
+  }, [id]);
 
   return (
     <>
@@ -15,7 +32,28 @@ const Categoria = () => {
       </div>
 
       <ListaCategorias />
-      <ListaPost url={`/posts?categoria=${id}`} />
+      <ul className="lista-categorias container flex">
+        {subCategorias.map((subcategoria) => (
+          <li
+            className={`lista-categorias__categoria lista-categorias__categoria--${id}`}
+            key={subcategoria}
+          >
+            <Link to={`${pathname}/${subcategoria}`}>{subcategoria}</Link>
+          </li>
+        ))}
+      </ul>
+      <Routes>
+        <Route
+          exact
+          path={`${pathname}/`}
+          element={
+            <>
+              <ListaPost url={`/posts?categoria=${id}`} />
+              <Outlet />
+            </>
+          }
+        />
+      </Routes>
     </>
   );
 };
