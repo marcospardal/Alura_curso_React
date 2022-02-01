@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icone } from './UI'
+import { IconeTema } from './UI'
 
 import alimentacao from '../assets/images/alimentacao.svg'
 import outros from '../assets/images/outros.svg'
@@ -11,11 +11,11 @@ import utilidades from '../assets/images/utilidades.svg'
 
 export default (type) => {
   const Images = {
-    Restaurante: <Icone src={alimentacao} alt="Restaurante" />,
-    Utilidades: <Icone src={utilidades} alt="Utilidades" />,
-    Saude: <Icone src={saude} alt="Saude" />,
-    Transporte: <Icone src={transporte} alt="Transporte" />,
-    default: <Icone src={outros} alt="Outro" />,
+    Restaurante: <IconeTema src={alimentacao} alt="Restaurante" />,
+    Utilidades: <IconeTema src={utilidades} alt="Utilidades" />,
+    Saude: <IconeTema src={saude} alt="Saude" />,
+    Transporte: <IconeTema src={transporte} alt="Transporte" />,
+    default: <IconeTema src={outros} alt="Outro" />,
   };
 
   return Images[type] || Images.default
