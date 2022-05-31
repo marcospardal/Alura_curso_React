@@ -1,4 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import { usePagamentoContext } from "./Pagamento";
+import { UsuarioContext } from "./Usuario";
 
 export const CarrinhoContext = createContext();
 CarrinhoContext.displayName = 'Carrinho';
@@ -6,16 +8,19 @@ CarrinhoContext.displayName = 'Carrinho';
 export const CarrinhoProvider = ({ children }) => {
   const [carrinho, setCarrinho] = useState([]);
   const [quantidade, setQuantidade] = useState(0);
+  const [valorTotal, setValorTotal] = useState(0);
 
   return (
-    <CarrinhoContext.Provider value={{ carrinho, setCarrinho, quantidade, setQuantidade }}>
+    <CarrinhoContext.Provider value={{ carrinho, setCarrinho, quantidade, setQuantidade, valorTotal, setValorTotal }}>
       {children}
     </CarrinhoContext.Provider>
   )
 };
 
 export const useCarrinhoContext = () => {
-  const { carrinho, setCarrinho, quantidade, setQuantidade } = useContext(CarrinhoContext);
+  const { carrinho, setCarrinho, quantidade, setQuantidade, valorTotal, setValorTotal } = useContext(CarrinhoContext);
+  const { tipoAtual } = usePagamentoContext();
+  const { setSaldo } = useContext(UsuarioContext);
 
   function mudarQuantidade(id, quantidade) {
     return carrinho.map(item => {
@@ -46,16 +51,28 @@ export const useCarrinhoContext = () => {
     setCarrinho(mudarQuantidade(id, -1))
   }
 
+  function efetuarCompra() {
+    setCarrinho([]);
+    setSaldo(saldoAtual => saldoAtual - valorTotal);
+  }
+
   useEffect(() => {
-    const novaQuantidade = carrinho.reduce((contador, produto) => contador + produto.quantidade, 0)
+    const { total, novaQuantidade } = carrinho.reduce((contador, produto) => 
+      ({ novaQuantidade: contador.novaQuantidade + produto.quantidade, total: contador.total + (produto.quantidade * produto.valor) }), 
+      { novaQuantidade: 0, total: 0 }
+    )
     setQuantidade(novaQuantidade)
-  }, [carrinho, setQuantidade])
+    setValorTotal(total * tipoAtual.juros)
+  }, [carrinho, setQuantidade, setValorTotal, tipoAtual])
 
   return {
     carrinho,
     setCarrinho,
     adicionarProduto,
     removerProduto,
-    quantidade
+    quantidade,
+    setQuantidade,
+    valorTotal,
+    efetuarCompra
   }
 }
